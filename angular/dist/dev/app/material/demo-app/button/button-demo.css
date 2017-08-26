@@ -1,0 +1,24 @@
+
+.demo-button {
+  button,
+  a {
+    margin: 8px;
+    text-transform: uppercase;
+  }
+
+  section {
+    /* doiuse-disable */
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background-color: #f7f7f7;
+    margin: 8px;
+  }
+
+  p {
+    padding: 5px 15px;
+  }
+}

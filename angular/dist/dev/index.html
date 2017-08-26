@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Welcome to angular material seed!</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/assets/favicon/favicon-DEV.ico" type="image/x-icon">
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css?1503768077013">
+  <link rel="stylesheet" href="/css/main.css?1503768077014">
+  <!-- endinject --> 
+</head>
+<body class="inner2">
+
+  <sd-app>Loading...</sd-app>
+
+  <script>
+  // Fixes undefined module function in SystemJS bundle
+  function module() {}
+  </script>
+
+  <!-- shims:js -->
+  <script src="/node_modules/core-js/client/shim.min.js?1503768077002"></script>
+  <script src="/node_modules/intl/dist/Intl.min.js?1503768077003"></script>
+  <script src="/node_modules/systemjs/dist/system.src.js?1503768077005"></script>
+  <!-- endinject -->
+
+  
+  <script src="/system-config.js"></script>
+  
+
+  <!-- libs:js -->
+  <script src="/node_modules/zone.js/dist/zone.js?1503768077007"></script>
+  <script src="/node_modules/zone.js/dist/long-stack-trace-zone.js?1503768077008"></script>
+  <script src="/node_modules/.tmp/Rx.min.js?1503768077009"></script>
+  <script src="/node_modules/hammerjs/hammer.min.js?1503768077010"></script>
+  <!-- endinject -->
+
+  <!-- inject:js -->
+  <!-- endinject -->
+
+  
+  <script>
+  System.import('app/main')
+    .catch(function (e) {
+      console.error(e.stack || e,
+        'Not expecting this error? Report it at https://github.com/liuy97/angular2-material-seed/issues');
+    });
+  </script>
+  
+
+</body>
+</html>

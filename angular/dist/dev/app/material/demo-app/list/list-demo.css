@@ -1,0 +1,33 @@
+.demo {
+  /* doiuse-disable */
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+
+  md-list,
+  md-nav-list {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    width: 350px;
+    margin: 20px 20px 0 0;
+  }
+
+  h2 {
+    margin-top: 20px;
+  }
+
+  md-icon {
+    color: rgba(0, 0, 0, 0.12);
+  }
+
+  [md-list-icon] {
+    color: white;
+    background: rgba(0, 0, 0, 0.12);
+  }
+}
+
+.demo-secondary-text {
+  color: rgba(0, 0, 0, 0.12);
+}

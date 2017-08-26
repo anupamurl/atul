@@ -34,7 +34,7 @@ export class AuthNotGuard implements CanActivate {
     if( !tokenNotExpired() ) {
       return true;
     } else {
-      this.router.navigate(['about']);
+      this.router.navigate(['dashboard']);
       return false;
     }
   }
