@@ -40,29 +40,50 @@ var userSchema = new mongoose.Schema({
   spotify: String
 });
 
-userSchema.pre('save', function(next) {
+
+var skillSchema = new mongoose.Schema({
+  user : String ,
+  sdisc : String,
+  image: String,
+  category: String,
+  title: String,
+  startdate: Date,
+  enddate: Date,
+  batchsize: Number,
+  videourl: String,
+  cdicription: String,
+  wce: String
+});
+
+
+
+
+
+userSchema.pre('save', function (next) {
   var user = this;
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, hash) {
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(user.password, salt, function (err, hash) {
       user.password = hash;
       next();
     });
   });
 });
 
-userSchema.methods.comparePassword = function(password, done) {
-  bcrypt.compare(password, this.password, function(err, isMatch) {
+userSchema.methods.comparePassword = function (password, done) {
+  bcrypt.compare(password, this.password, function (err, isMatch) {
     done(err, isMatch);
   });
 };
 
 var User = mongoose.model('User', userSchema);
 
+var Skill = mongoose.model('Skill', skillSchema);
+
 mongoose.connect(config.MONGO_URI);
-mongoose.connection.on('error', function(err) {
+mongoose.connection.on('error', function (err) {
   console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
@@ -77,7 +98,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Force HTTPS on Heroku
 if (app.get('env') === 'production') {
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     var protocol = req.get('x-forwarded-proto');
     protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
   });
@@ -129,14 +150,14 @@ function createJWT(user) {
  | GET /api/me
  |--------------------------------------------------------------------------
  */
-app.get('/api/me', ensureAuthenticated, function(req, res) {
-  User.findById(req.user, function(err, user) {
+app.get('/api/me', ensureAuthenticated, function (req, res) {
+  User.findById(req.user, function (err, user) {
     res.send(user);
   });
 });
 
 
- 
+
 
 
 
@@ -146,14 +167,14 @@ app.get('/api/me', ensureAuthenticated, function(req, res) {
  | PUT /api/me
  |--------------------------------------------------------------------------
  */
-app.put('/api/me', ensureAuthenticated, function(req, res) {
-  User.findById(req.user, function(err, user) {
+app.put('/api/me', ensureAuthenticated, function (req, res) {
+  User.findById(req.user, function (err, user) {
     if (!user) {
       return res.status(400).send({ message: 'User not found' });
     }
     user.displayName = req.body.displayName || user.displayName;
     user.email = req.body.email || user.email;
-    user.save(function(err) {
+    user.save(function (err) {
       res.status(200).end();
     });
   });
@@ -165,12 +186,12 @@ app.put('/api/me', ensureAuthenticated, function(req, res) {
  | Log in with Email
  |--------------------------------------------------------------------------
  */
-app.post('/auth/login', function(req, res) {
-  User.findOne({ email: req.body.email }, '+password', function(err, user) {
+app.post('/auth/login', function (req, res) {
+  User.findOne({ email: req.body.email }, '+password', function (err, user) {
     if (!user) {
       return res.status(401).send({ message: 'Invalid email and/or password' });
     }
-    user.comparePassword(req.body.password, function(err, isMatch) {
+    user.comparePassword(req.body.password, function (err, isMatch) {
       if (!isMatch) {
         return res.status(401).send({ message: 'Invalid email and/or password' });
       }
@@ -184,8 +205,9 @@ app.post('/auth/login', function(req, res) {
  | Create Email and Password Account
  |--------------------------------------------------------------------------
  */
-app.post('/auth/signup', function(req, res) {
-  User.findOne({ email: req.body.email }, function(err, existingUser) {
+app.post('/auth/signup', function (req, res) {
+
+  User.findOne({ email: req.body.email }, function (err, existingUser) {
     if (existingUser) {
       return res.status(409).send({ message: 'Email is already taken' });
     }
@@ -194,14 +216,57 @@ app.post('/auth/signup', function(req, res) {
       email: req.body.email,
       password: req.body.password
     });
-    user.save(function(err, result) {
+    user.save(function (err, result) {
       if (err) {
         res.status(500).send({ message: err.message });
       }
       res.send({ token: createJWT(result) });
     });
   });
-}); 
-app.listen(app.get('port'), app.get('host'), function() {
+});
+
+
+
+app.post("/addskill", ensureAuthenticated, function (req, res) {
+
+  var skill = new Skill({
+    user : req.user,
+    sdisc : req.body.sdisc,
+    image: req.body.image,
+    category: req.body.category,
+    title: req.body.title,
+    startdate: req.body.startdate,
+    enddate: req.body.enddate,
+    batchsize: req.body.batchsize,
+    videourl: req.body.videourl,
+    cdicription: req.body.cdicription,
+    wce: req.body.wce
+    })
+  
+
+    skill.save(function (err, data) {
+      res.send(data);
+    })
+
+})
+
+
+app.get("/skilllist", ensureAuthenticated, function (req, res) { 
+  Skill.find({},function(err,data){ 
+    res.send(data);  
+  }) 
+})
+
+
+app.get("/skilllist/:id", ensureAuthenticated ,  function (req, res) { 
+ 
+   Skill.findById(req.params.id,function(err,data){ 
+     res.send(data);  
+   }) 
+})
+
+
+
+app.listen(app.get('port'), app.get('host'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });

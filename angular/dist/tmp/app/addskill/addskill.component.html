@@ -16,29 +16,29 @@
        </div>
        
        <div class="host-form-cont-pro">
-       <form class="from-style">
-            <input type="text" placeholder="Skill Catogery">
-            <input type="text" placeholder="Skill titel	">
-            <input type="text" placeholder="Small Discrition">
+       <form class="from-style" [formGroup]="skillForm" (ngSubmit)="addSkill($event)">
+            <input type="text" placeholder="Skill Catogery"  formControlName="category" >
+            <input type="text" placeholder="Skill titel	" formControlName="title"  >
+            <input type="text" placeholder="Small Discrition" formControlName="sdisc" >
             <div class="basic-information-form-area">
                 <div class="basic-information-form-cont3">
-                <input type="text" class="date" placeholder="Start Date">
+                <input type="text" class="date" placeholder="Start Date"  formControlName="startdate">
                 </div>
                 
                 <div class="basic-information-form-cont3">
-                <input type="text" class="date" placeholder="End date">
+                <input type="text" class="date" placeholder="End date"  formControlName="enddate">
                 </div>
                 
                 <div class="basic-information-form-cont3">
-                <input type="text" class="select" placeholder="Last Name">
+                <input type="text" class="select" placeholder="Last Name"  formControlName="batchsize">
                 </div>
                 <br class="spacer">
             </div>
             
-            <input type="text" placeholder="Video URL ( Optional)">
-            <input type="text" placeholder="Course Discription">
-            <input type="text" placeholder="Who can Enrole">
-            <input type="submit" value="Add Question" class="green-border-btn">
+            <input type="text" placeholder="Video URL ( Optional)"  formControlName="videourl"> 
+            <input type="text" placeholder="Course Discription" formControlName="cdicription">
+            <input type="text" placeholder="Who can Enrole"  formControlName="wce" >
+            <input type="submit" value="Add Question" class="green-border-btn"   >
        </form>
        </div>
        

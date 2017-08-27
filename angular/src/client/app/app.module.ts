@@ -42,7 +42,7 @@ import { AuthGuard, AuthNotGuard } from './jwt/auth.service';
       headerName: 'Authorization',
       headerPrefix: 'bearer',
       tokenName: 'token',
-      tokenGetter: (() => localStorage.getItem('id_token')),
+      tokenGetter: (() => localStorage.getItem('token')),
       globalHeaders: [{ 'Content-Type': 'application/json' }],
       noJwtError: true
     })
